@@ -116,4 +116,27 @@ class AppraisalController extends Controller
         //
     }
 
+    public function payment($id)
+    {
+
+        // $request->charge();
+        $appraisal = Appraisal::find($id);
+
+        return view('appraisals.payment')->with('appraisal', $appraisal);
+    }
+
+    public function purchase(Request $request, Appraisal $id)
+    {
+
+        // try {
+        //     $request->Charge(
+        //         100, $request->paymentMethodId, [
+        //             "discription" => 'This is payment' . $id,
+        //         ]);
+        // } catch (\Exception$exception) {
+        //     return back()->with('error', $exception->getMessage());
+        // }
+        // dd($request);
+        return back()->with('alert', 'Product purchased successfully!');
+    }
 }

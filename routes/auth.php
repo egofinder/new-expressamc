@@ -61,5 +61,9 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('loans', LoanController::class);
 
+    Route::get('appraisals/{appraisal}/payment', [AppraisalController::class, 'payment']);
+    Route::post('appraisals/{appraisal}/purchase', [AppraisalController::class, 'purchase']);
+
     Route::resource('appraisals', AppraisalController::class);
+
 });

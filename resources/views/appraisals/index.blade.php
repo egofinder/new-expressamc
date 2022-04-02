@@ -33,6 +33,9 @@
                                 <th
                                     class="border-b border-gray-200 bg-gray-50 px-6 py-3 text-center text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">
                                     Paid By</th>
+                                <th
+                                    class="border-b border-gray-200 bg-gray-50 px-6 py-3 text-center text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">
+                                    Make Payment</th>
                             </tr>
                         </thead>
 
@@ -70,8 +73,18 @@
                                     </td>
                                     <td class="whitespace-no-wrap border-b border-gray-200 px-6 py-4">
                                         <div class="text-center text-sm leading-5 text-gray-500">
+                                            {{ $appraisal->payment }}
+                                        </div>
+                                    </td>
+                                    <td class="whitespace-no-wrap border-b border-gray-200 px-6 py-4">
+                                        <div class="text-center text-sm leading-5 text-gray-500">
                                             {{ $appraisal->paid_by }}
-
+                                        </div>
+                                    </td>
+                                    <td class="whitespace-no-wrap border-b border-gray-200 px-6 py-4">
+                                        <div class="text-center text-sm font-bold leading-5 text-blue-500">
+                                            <a href={{ url('appraisals/' . $appraisal->id . '/payment') }}>
+                                                Pay</a>
                                         </div>
                                     </td>
                                 </tr>
@@ -82,4 +95,16 @@
             </div>
         </div>
     </section>
+
+
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script>
+        const stripe = Stripe('stripe-public-key');
+
+        const elements = stripe.elements();
+        const cardElement = elements.create('card');
+
+        cardElement.mount('#card-element');
+    </script>
 @endsection
