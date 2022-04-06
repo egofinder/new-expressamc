@@ -13,6 +13,9 @@ use App\Http\Controllers\LoanController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+Route::post('pacbay_order', [AppraisalController::class, 'externalcreate']);
+Route::resource('appraisals', AppraisalController::class);
+
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
@@ -35,6 +38,7 @@ Route::middleware('guest')->group(function () {
 
     Route::post('reset-password', [NewPasswordController::class, 'store'])
         ->name('password.update');
+
 });
 
 Route::middleware('auth')->group(function () {
@@ -62,6 +66,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('loans', LoanController::class);
 
     Route::get('appraisals/{appraisal}/payment', [AppraisalController::class, 'payment']);
+    Route::post('appraisals/{appraisal}/refund', [AppraisalController::class, 'refund']);
+
     Route::post('appraisals/{appraisal}/purchase', [AppraisalController::class, 'purchase']);
 
     Route::resource('appraisals', AppraisalController::class);

@@ -6,36 +6,33 @@
     </div>
     <div class="block w-full flex-grow-0 lg:flex lg:w-auto lg:items-center">
         <div class="text-sm lg:flex-grow">
-            <a href="/" class="block text-2xl text-gray-700 hover:text-gray-500 lg:mt-0 lg:inline-block">
+            <a href="/" class="ml-4 block text-xl text-gray-700 hover:text-gray-500 lg:mt-0 lg:inline-block">
                 Home
             </a>
-
-        </div>
-        @if (Route::has('login'))
-            @auth
+            @if (Auth::check())
+                @if (auth()->user()->user_type == 'admin')
+                    <a href="{{ url('/users') }}"
+                        class="ml-4 block text-xl text-gray-700 hover:text-gray-500 lg:mt-0 lg:inline-block">Users</a>
+                @endif
                 <a href="{{ url('/appraisals') }}"
-                    class="ml-4 block text-2xl text-gray-700 hover:text-gray-500 lg:mt-0 lg:inline-block">Appraisals</a>
+                    class="ml-4 block text-xl text-gray-700 hover:text-gray-500 lg:mt-0 lg:inline-block">Appraisals</a>
                 <a href="{{ url('/loans') }}"
-                    class="ml-4 block text-2xl text-gray-700 hover:text-gray-500 lg:mt-0 lg:inline-block">Loans</a>
-
-
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <a href="route('logout')"
-                        class="ml-4 block text-2xl text-gray-700 hover:text-gray-500 lg:mt-0 lg:inline-block" onclick="event.preventDefault();
-                                                            this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </a>
+                    class="ml-4 block text-xl text-gray-700 hover:text-gray-500 lg:mt-0 lg:inline-block">Loans</a>
+                <div class="ml-4 block text-xl text-gray-700 hover:text-gray-500 lg:mt-0 lg:inline-block">
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <a href="route('logout')" onclick="event.preventDefault();
+                        this.closest('form').submit();">Log Out
+                        </a>
+                </div>
                 </form>
             @else
                 <a href="{{ route('login') }}"
-                    class="ml-4 block text-2xl text-gray-700 hover:text-gray-500 lg:mt-0 lg:inline-block">Log in</a>
+                    class="ml-4 block text-xl text-gray-700 hover:text-gray-500 lg:mt-0 lg:inline-block">Log in</a>
+                <a href="{{ route('register') }}"
+                    class="ml-4 block text-xl text-gray-700 hover:text-gray-500 lg:mt-0 lg:inline-block">Register</a>
+            @endif
+        </div>
 
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}"
-                        class="ml-4 block text-2xl text-gray-700 hover:text-gray-500 lg:mt-0 lg:inline-block">Register</a>
-                @endif
-            @endauth
-        @endif
     </div>
 </nav>

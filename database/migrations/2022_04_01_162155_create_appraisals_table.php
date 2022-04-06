@@ -20,8 +20,9 @@ return new class extends Migration
             $table->date('order_date');
             $table->biginteger('order_by')->unsigned();
             $table->integer('fee');
-            $table->string('payment', 20);
-            $table->string('paid_by', 20);
+            $table->string('payment', 20)->nullable();
+            $table->string('paid_by', 20)->nullable();
+            $table->string('payment_id', 100)->nullable();
             $table->timestamps();
             $table->foreign('loan_number')
                 ->references('TransDetailsLoan')

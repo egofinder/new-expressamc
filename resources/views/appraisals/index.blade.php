@@ -2,8 +2,8 @@
 
 @section('content')
     <section class="bg-blue-100">
-        <div class="bg-orange-400 px-6 text-center text-3xl">
-            <a href="/appraisals/create">Order Appraisal</a>
+        <div class="rounded border border-blue-700 bg-blue-500 py-2 px-4 text-center font-bold text-white">
+            Appraisal Lists
         </div>
         <div class="mt-8 flex flex-col">
             <div class="-my-2 overflow-x-auto py-2 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
@@ -33,9 +33,16 @@
                                 <th
                                     class="border-b border-gray-200 bg-gray-50 px-6 py-3 text-center text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">
                                     Paid By</th>
-                                <th
-                                    class="border-b border-gray-200 bg-gray-50 px-6 py-3 text-center text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">
-                                    Make Payment</th>
+                                @if (auth()->user()->user_type != 'admin')
+                                    <th
+                                        class="border-b border-gray-200 bg-gray-50 px-6 py-3 text-center text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">
+                                        Make Payment</th>
+                                @endif
+                                @if (auth()->user()->user_type == 'admin')
+                                    <th
+                                        class="border-b border-gray-200 bg-gray-50 px-6 py-3 text-center text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">
+                                        Refund</th>
+                                @endif
                             </tr>
                         </thead>
 
@@ -81,12 +88,31 @@
                                             {{ $appraisal->paid_by }}
                                         </div>
                                     </td>
-                                    <td class="whitespace-no-wrap border-b border-gray-200 px-6 py-4">
-                                        <div class="text-center text-sm font-bold leading-5 text-blue-500">
-                                            <a href={{ url('appraisals/' . $appraisal->id . '/payment') }}>
-                                                Pay</a>
-                                        </div>
-                                    </td>
+                                    @if (auth()->user()->user_type != 'admin')
+                                        <td class="whitespace-no-wrap border-b border-gray-200 px-6 py-4">
+                                            <div class="text-center text-sm font-bold leading-5 text-blue-500">
+                                                <a href={{ url('appraisals/' . $appraisal->id . '/payment') }}>
+                                                    Pay</a>
+                                            </div>
+                                        </td>
+                                    @endif
+                                    @if (auth()->user()->user_type == 'admin')
+                                        <td class="whitespace-no-wrap border-b border-gray-200 px-6 py-4">
+                                            <div class="text-center text-sm font-bold leading-5 text-blue-500">
+                                                <form method="POST"
+                                                    action="{{ url('appraisals/' . $appraisal->id . '/refund') }}">
+                                                    @csrf
+                                                    <input type="hidden" name="user_id" id="user_id"
+                                                        value="{{ auth()->user()->id }}">
+                                                    <input type="hidden" name="appraisal_id" id="appraisal_id"
+                                                        value="{{ $appraisal->id }}">
+                                                    <button type="submit">
+                                                        Refund!
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>
@@ -95,16 +121,4 @@
             </div>
         </div>
     </section>
-
-
-    <script src="https://js.stripe.com/v3/"></script>
-
-    <script>
-        const stripe = Stripe('stripe-public-key');
-
-        const elements = stripe.elements();
-        const cardElement = elements.create('card');
-
-        cardElement.mount('#card-element');
-    </script>
 @endsection

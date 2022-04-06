@@ -14,7 +14,13 @@ class LoanController extends Controller
      */
     public function index()
     {
-        $loans = Loan::all();
+        if (auth()->user()->user_type === 'admin') {
+            $loans = Loan::all();
+        } else {
+            $user  = auth()->user()->id;
+            $loans = Loan::where('created_by', $user)->get();
+
+        }
         return view('loans.index')->with('loans', $loans);
     }
 
@@ -25,7 +31,7 @@ class LoanController extends Controller
      */
     public function create()
     {
-        //
+        return view('loans.create');
     }
 
     /**
@@ -36,7 +42,17 @@ class LoanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Loan::create([
+            'TransDetailsLoan'       => $request->input('loan_number'),
+            'LoanProgram'            => $request->input('program'),
+            'BrokerLenderName'       => $request->input('lenderbroker'),
+            'AEName'                 => $request->input('ae_name'),
+            'LoanOfficerName'        => $request->input('processor'),
+            'SubjectPropertyAddress' => $request->input('property_address'),
+            'created_by'             => auth()->user()->id,
+        ]);
+
+        return redirect('loans');
     }
 
     /**

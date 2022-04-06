@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('styles')
 </head>
 
 <body class="antialiased">
@@ -17,6 +18,7 @@
     <footer>
         @include('layouts.footer')
     </footer>
+    @yield('scripts')
 </body>
 
 </html>

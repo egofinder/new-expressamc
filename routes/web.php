@@ -15,10 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('index');
-});
+})->middleware(['auth']);
 
 Route::get('/', function () {
     return view('index');
-})->middleware(['auth'])->name('HOME');
-
+});
 require __DIR__ . '/auth.php';

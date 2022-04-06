@@ -2,7 +2,9 @@
 
 @section('content')
     <section class="bg-blue-100">
-        <h1>Users List</h1>
+        <div class="rounded border border-blue-700 bg-blue-500 py-2 px-4 text-center font-bold text-white">
+            User Lists
+        </div>
         <div class="mt-8 flex flex-col">
             <div class="-my-2 overflow-x-auto py-2 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
                 <div
@@ -91,11 +93,12 @@
                                     </td>
                                     <td
                                         class="whitespace-no-wrap border-b border-gray-200 px-6 py-4 text-center text-xl leading-5 text-blue-500">
-                                        <i class="far fa-edit"></i>
+                                        <a href="{{ url('users/' . $user->id . '/edit') }}"><i
+                                                class="far fa-edit"></i></a>
                                     </td>
                                     <td
                                         class="whitespace-no-wrap border-b border-gray-200 px-6 py-4 text-center text-xl leading-5 text-red-500">
-                                        <i class="fa-solid fa-trash"></i>
+                                        <a href=""><i class="fa-solid fa-trash"></i></a>
                                     </td>
                                 </tr>
                             @endforeach

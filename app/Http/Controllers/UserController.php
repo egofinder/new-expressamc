@@ -47,7 +47,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -58,7 +58,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        return view('users.edit')->with('user', $user);
     }
 
     /**
@@ -70,7 +71,27 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // dd($request);
+
+        $user = User::find($id);
+        if (!is_null($request->first_name)) {
+            $user->first_name = $request->first_name;
+        }
+        if (!is_null($request->last_name)) {
+            $user->last_name = $request->last_name;
+        }
+        if (!is_null($request->company)) {
+            $user->company = $request->company;
+        }
+        if (!is_null($request->phone)) {
+            $user->phone = $request->phone;
+        }
+        if (!is_null($request->user_type)) {
+            $user->user_type = $request->user_type;
+        }
+        $user->save();
+
+        return redirect('users');
     }
 
     /**
