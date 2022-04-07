@@ -41,7 +41,7 @@
 
             <div class="col-lg-4 col-md-6">
                 <input class="StripeElement mb-3" name="card_holder_name" placeholder="Card holder name" required>
-                <div id="card-element">
+                <div id="card-element" class="w-screen">
                 </div>
             </div>
             <div id="card-errors" role="alert"></div>

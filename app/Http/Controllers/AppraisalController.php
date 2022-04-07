@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appraisal;
-use App\Models\Loan;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,11 +18,9 @@ class AppraisalController extends Controller
     {
         if (auth()->user()->user_type === 'admin') {
             $appraisals = Appraisal::all();
-
         } else {
             $id         = auth()->user()->id;
             $appraisals = Appraisal::where('order_by', $id)->get();
-
         }
 
         return view('appraisals.index')->with('appraisals', $appraisals);
@@ -39,22 +37,6 @@ class AppraisalController extends Controller
         return view('appraisals.create')->with('initial_order', $request);
     }
 
-    // Receive Appraisal order from pacbaylending.com/pac2/appraisal.php
-    public function externalcreate(Request $request)
-    {
-        $initial_order = Loan::where('TransDetailsLoan', $request->keyword)->first();
-        if (is_null($initial_order)) {
-            return "No Loan Found!";
-        }
-        if (strlen($initial_order->IntentToProceed) < 8) {
-            return "The Borrower Intent to Proceed Date is Missing \n Please have your borrower complete the disclosure package.\n Or Contact your Lending Company\'s Disclosure Department.";
-        }
-        if ($initial_order->LoanType == "VA") {
-            return "We are not able to order VA loans here at Express AMC. All VA appraisals MUST be ordered through VA Portal, \n Please contact your Loan Broker about it. Thanks";
-        }
-        return view('appraisals.externalcreate')->with('initial_order', $initial_order);
-
-    }
     /**
      * Store a newly created resource in storage.
      *
@@ -85,7 +67,6 @@ class AppraisalController extends Controller
             'order_date'  => $request->input('order_date'),
             'fee'         => $request->input('fee'),
             'order_by'    => auth()->user()->id,
-
         ]);
 
         return redirect('/appraisals');

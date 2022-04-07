@@ -19,7 +19,6 @@ class LoanController extends Controller
         } else {
             $user  = auth()->user()->id;
             $loans = Loan::where('created_by', $user)->get();
-
         }
         return view('loans.index')->with('loans', $loans);
     }

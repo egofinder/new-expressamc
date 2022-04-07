@@ -9,12 +9,18 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\GuestAppraisalController;
+use App\Http\Controllers\GuestLoanController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('pacbay_order', [AppraisalController::class, 'externalcreate']);
-Route::resource('appraisals', AppraisalController::class);
+Route::post('order-appraisal-pacbay', [GuestAppraisalController::class, 'externalcreate']);
+Route::get('guest-appraisals/{appraisal}/payment', [GuestAppraisalController::class, 'payment']);
+Route::post('guest-appraisals/{appraisal}/purchase', [GuestAppraisalController::class, 'purchase']);
+
+Route::resource('guest-loans', GuestLoanController::class);
+Route::resource('guest-appraisals', GuestAppraisalController::class);
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
