@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Loan;
+use App\Models\GuestLoan;
+use Illuminate\Http\Request;
 
 class GuestLoanController extends Controller
 {
 
-    public function show($id)
+    public function show(GuestLoan $guest_loan_number, Request $request)
     {
-        $loan = Loan::where('TransDetailsLoan', $id)->first();
-        return view('guest-loans.show', compact('loan'));
+
+        if ($guest_loan_number->SubjectPropertyZip == $request->zip) {
+            return view('guest-loans.show')->with('loan', $guest_loan_number);
+        } else {
+            return 'Please Enter Valid info';
+        }
+
     }
 }

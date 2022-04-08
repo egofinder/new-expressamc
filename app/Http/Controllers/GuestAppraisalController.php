@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\GuestAppraisal;
-use App\Models\Loan;
+use App\Models\GuestLoan;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -18,14 +18,14 @@ class GuestAppraisalController extends Controller
     public function show($id)
     {
         $appraisal = GuestAppraisal::find($id);
-        $loan      = Loan::where('TransDetailsLoan', $appraisal->loan_number)->first();
+        $loan      = GuestLoan::where('TransDetailsLoan', $appraisal->loan_number)->first();
         return view('guest-appraisals.show', compact('appraisal', 'loan'));
     }
 
     public function create(Request $request)
     {
         $user          = User::find(1);
-        $initial_order = Loan::where('TransDetailsLoan', $request->loan_number)->first();
+        $initial_order = GuestLoan::where('TransDetailsLoan', $request->loan_number)->first();
 
         return view('guest-appraisals.externalcreate', compact('user', 'initial_order'));
     }
@@ -33,38 +33,38 @@ class GuestAppraisalController extends Controller
     // Receive Appraisal order from pacbaylending.com/pac2/appraisal.php
     public function externalcreate(Request $request)
     {
-        $user          = User::find(1);
-        $appraisal     = GuestAppraisal::where('loan_number', $request->keyword)->first();
-        $initial_order = Loan::where('TransDetailsLoan', $request->keyword)->first();
+        // $user          = User::find(1);
+        $appraisal = GuestAppraisal::where('loan_number', $request->keyword)->first();
+        $loan      = GuestLoan::where('TransDetailsLoan', $request->keyword)->first();
 
         if (isset($appraisal)) {
-            return redirect('guest-loans/' . $request->keyword);
+            return redirect('guest-loans/' . $request->keyword . '?zip=' . $request->keyzip);
         }
-        if (is_null($initial_order)) {
+        if (is_null($loan)) {
             return "No Loan Found!";
         }
-        if (strlen($initial_order->IntentToProceed) < 8) {
+        if (strlen($loan->IntentToProceed) < 8) {
             return "The Borrower Intent to Proceed Date is Missing \n Please have your borrower complete the disclosure package.\n Or Contact your Lending Company\'s Disclosure Department.";
         }
-        if ($initial_order->LoanType == "VA") {
+        if ($loan->LoanType == "VA") {
             return "We are not able to order VA loans here at Express AMC. All VA appraisals MUST be ordered through VA Portal, \n Please contact your Loan Broker about it. Thanks";
         }
-        if ($request->keyzip != $initial_order->SubjectPropertyZip) {
+        if ($request->keyzip != $loan->SubjectPropertyZip) {
             return "Loan Number mismakes with property Zip!";
         }
-        return view('guest-appraisals.externalcreate', compact('user', 'initial_order'));
+        return view('guest-appraisals.externalcreate')->with('loan', $loan);
 
     }
 
     public function store(Request $request)
     {
 
+        // dd($request);
         $request->validate([
             'file'        => 'mimes:jpg,png,jpeg,pdf,txt,docx,doc|max:5048',
-            'loan_number' => 'required|exists:loans,TransDetailsLoan',
+            'loan_number' => 'required|exists:guest_loans,TransDetailsLoan',
             'order_date'  => 'required|date_format:Y-m-d',
             'fee'         => 'required|integer|min:0|max:2021',
-
         ]);
 
         GuestAppraisal::create([
@@ -77,7 +77,8 @@ class GuestAppraisalController extends Controller
             'fax'         => $request->input('broker_fax'),
         ]);
 
-        return redirect('guest-loans/' . $request->input('loan_number'));
+        // return "hihi";
+        return redirect('guest-loans/' . $request->input('loan_number') . '?zip=' . $request->input('property_zip'));
     }
 
     public function payment($id)

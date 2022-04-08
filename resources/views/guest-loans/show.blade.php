@@ -124,65 +124,68 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row-span-2 rounded-xl border border-gray-100 bg-gray-50 p-6 text-center sm:p-8">
-                        <div class="flex flex-col justify-center space-y-4">
-                            <h1 class="mb-12 text-center text-2xl font-bold text-blue-500 md:text-4xl">
-                                Appraisal Information</h1>
-                            <div class="grid grid-cols-2 gap-1">
-                                <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Order Number</div>
-                                <div class="mb-2 text-center text-xl">
-                                    {{ $loan->GuestAppraisal->id }}
-                                </div>
-                                <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Order Date</div>
-                                <div class="mb-2 bg-red-400 text-center text-xl">
-                                    {{ $loan->GuestAppraisal->order_date }}
-                                </div>
-                                <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Order By</div>
-                                <div class="mb-2 bg-red-400 text-center text-xl">
-                                    {{ $loan->GuestAppraisal->order_by }}
-                                </div>
-                                <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Fee</div>
-                                <div class="mb-2 bg-red-400 text-center text-xl">
-                                    {{ $loan->GuestAppraisal->fee }}
-                                </div>
-                                <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Email</div>
-                                <div class="mb-2 text-center text-xl">
-                                </div>
-                                <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Company Name</div>
-                                <div class="mb-2 text-center text-xl">
-                                    {{ $loan->GuestAppraisal->company }}
 
-                                </div>
-                                <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Tel.</div>
-                                <div class="mb-2 text-center text-xl">
-                                    {{ $loan->GuestAppraisal->phone }}
+                    <!-- Only display Appraisal Info if there is ordered Appraisal for loan -->
+                    @if (isset($loan->GuestAppraisal))
+                        <div class="row-span-2 rounded-xl border border-gray-100 bg-gray-50 p-6 text-center sm:p-8">
+                            <div class="flex flex-col justify-center space-y-4">
+                                <h1 class="mb-12 text-center text-2xl font-bold text-blue-500 md:text-4xl">
+                                    Appraisal Information</h1>
+                                <div class="grid grid-cols-2 gap-1">
+                                    <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Order Number</div>
+                                    <div class="mb-2 text-center text-xl">
+                                        {{ $loan->GuestAppraisal->id }}
+                                    </div>
+                                    <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Order Date</div>
+                                    <div class="mb-2 bg-red-400 text-center text-xl">
+                                        {{ $loan->GuestAppraisal->order_date }}
+                                    </div>
+                                    <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Order By</div>
+                                    <div class="mb-2 bg-red-400 text-center text-xl">
+                                        {{ $loan->GuestAppraisal->order_by }}
+                                    </div>
+                                    <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Fee</div>
+                                    <div class="mb-2 bg-red-400 text-center text-xl">
+                                        {{ $loan->GuestAppraisal->fee }}
+                                    </div>
+                                    <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Email</div>
+                                    <div class="mb-2 text-center text-xl">
+                                    </div>
+                                    <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Company Name</div>
+                                    <div class="mb-2 text-center text-xl">
+                                        {{ $loan->GuestAppraisal->company }}
 
-                                </div>
-                                <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Fax</div>
-                                <div class="mb-2 text-center text-xl">
-                                    {{ $loan->GuestAppraisal->fax }}
-                                </div>
-                                <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Paid By</div>
-                                <div class="mb-2 bg-red-400 text-center text-xl">
-                                    {{ $loan->GuestAppraisal->paid_by }}
-                                </div>
-                                <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Status</div>
-                                <div class="mb-2 text-center text-xl">
-                                    {{ $loan->GuestAppraisal->payment }}
-                                </div>
+                                    </div>
+                                    <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Tel.</div>
+                                    <div class="mb-2 text-center text-xl">
+                                        {{ $loan->GuestAppraisal->phone }}
+
+                                    </div>
+                                    <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Fax</div>
+                                    <div class="mb-2 text-center text-xl">
+                                        {{ $loan->GuestAppraisal->fax }}
+                                    </div>
+                                    <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Paid By</div>
+                                    <div class="mb-2 bg-red-400 text-center text-xl">
+                                        {{ $loan->GuestAppraisal->paid_by }}
+                                    </div>
+                                    <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Status</div>
+                                    <div class="mb-2 text-center text-xl">
+                                        {{ $loan->GuestAppraisal->payment }}
+                                    </div>
 
 
-                                <!-- Button Part -->
+                                    <!-- Button Part -->
 
-                                <a class="block w-full rounded border border-blue-700 bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
-                                    href="{{ url('guest-appraisals/' . $loan->GuestAppraisal->id . '/addon') }}">Appraisal
-                                    Addon</a>
+                                    <a class="block w-full rounded border border-blue-700 bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+                                        href="{{ url('guest-appraisals/' . $loan->GuestAppraisal->id . '/addon') }}">Appraisal
+                                        Addon</a>
 
-                                <a class="block w-full rounded border border-blue-700 bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
-                                    href="{{ url('guest-appraisals/' . $loan->GuestAppraisal->id . '/payment') }}">Pay
-                                    Appraisal
-                                </a>
-                                {{-- <form action="{{ url('guest-appraisals/' . $loan->GuestAppraisal->id . '/payment') }}"
+                                    <a class="block w-full rounded border border-blue-700 bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+                                        href="{{ url('guest-appraisals/' . $loan->GuestAppraisal->id . '/payment') }}">Pay
+                                        Appraisal
+                                    </a>
+                                    {{-- <form action="{{ url('guest-appraisals/' . $loan->GuestAppraisal->id . '/payment') }}"
                                     method="POST" id="payment">
                                     @csrf
                                     @method("GET")
@@ -192,50 +195,49 @@
                                         Pay Appraisal
                                     </button>
                                 </form> --}}
-                            </div>
-                        </div>
-                    </div>
-
-                    @forelse($loan->GuestAppraisal->Addon as $indexKey => $addon)
-                        <div class="row-span-2 rounded-xl border border-gray-100 bg-gray-50 p-6 text-center sm:p-8">
-                            <div class="flex flex-col justify-center space-y-4">
-                                <h1 class="mb-12 text-center text-2xl font-bold text-blue-500 md:text-4xl">
-                                    Appraisal Addon #{{ $indexKey + 1 }}</h1>
-                                <div class="grid grid-cols-2 gap-1">
-                                    <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Order Date</div>
-                                    <div class="mb-2 text-center text-xl">
-                                        {{ $addon->order_date }}
-                                    </div>
-                                    <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Order By</div>
-                                    <div class="mb-2 text-center text-xl">
-                                        {{ $addon->order_by }}
-                                    </div>
-                                    <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Fee</div>
-                                    <div class="mb-2 text-center text-xl">
-                                        {{ $addon->fee }}
-                                    </div>
-                                    <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Paid By</div>
-                                    <div class="mb-2 bg-red-400 text-center text-xl">
-                                        {{ $addon->paid_by }}
-                                    </div>
-                                    <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Status</div>
-                                    <div class="mb-2 text-center text-xl">
-                                        {{ $addon->payment }}
-                                    </div>
-                                    <div class="col-span-2">
-                                        <a class="block w-full rounded border border-blue-700 bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
-                                            href="{{ url('guest-appraisals/' . $addon->id . '/addonpayment') }}">Pay
-                                            Addon
-                                        </a>
-                                    </div>
-
                                 </div>
                             </div>
                         </div>
-                    @empty
-                    @endforelse
 
+                        @forelse($loan->GuestAppraisal->Addon as $indexKey => $addon)
+                            <div class="row-span-2 rounded-xl border border-gray-100 bg-gray-50 p-6 text-center sm:p-8">
+                                <div class="flex flex-col justify-center space-y-4">
+                                    <h1 class="mb-12 text-center text-2xl font-bold text-blue-500 md:text-4xl">
+                                        Appraisal Addon #{{ $indexKey + 1 }}</h1>
+                                    <div class="grid grid-cols-2 gap-1">
+                                        <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Order Date</div>
+                                        <div class="mb-2 text-center text-xl">
+                                            {{ $addon->order_date }}
+                                        </div>
+                                        <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Order By</div>
+                                        <div class="mb-2 text-center text-xl">
+                                            {{ $addon->order_by }}
+                                        </div>
+                                        <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Fee</div>
+                                        <div class="mb-2 text-center text-xl">
+                                            {{ $addon->fee }}
+                                        </div>
+                                        <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Paid By</div>
+                                        <div class="mb-2 bg-red-400 text-center text-xl">
+                                            {{ $addon->paid_by }}
+                                        </div>
+                                        <div class="mb-2 bg-gray-300 text-center text-xl font-bold">Status</div>
+                                        <div class="mb-2 text-center text-xl">
+                                            {{ $addon->payment }}
+                                        </div>
+                                        <div class="col-span-2">
+                                            <a class="block w-full rounded border border-blue-700 bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+                                                href="{{ url('guest-appraisals/' . $addon->id . '/addonpayment') }}">Pay
+                                                Addon
+                                            </a>
+                                        </div>
 
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                        @endforelse
+                    @endif
 
                 </div>
     </section>

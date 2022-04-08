@@ -1,5 +1,5 @@
 INSERT INTO
-  `loans` (
+  `guest_loans` (
     `id`,
     `TransDetailsApplicationDate`,
     `PurchaseAdviceDate`,

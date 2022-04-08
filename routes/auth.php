@@ -25,7 +25,8 @@ Route::post('guest-appraisals/{guest_appraisal}', [GuestAppraisalAddonController
 Route::get('guest-appraisals/{guest_appraisal}/payment', [GuestAppraisalController::class, 'payment']);
 Route::post('guest-appraisals/{guest_appraisal}/purchase', [GuestAppraisalController::class, 'purchase']);
 
-Route::resource('guest-loans', GuestLoanController::class);
+Route::get('guest-loans/{guest_loan_number:TransDetailsLoan}', [GuestLoanController::class, 'show']);
+
 Route::resource('guest-appraisals', GuestAppraisalController::class);
 
 Route::middleware('guest')->group(function () {

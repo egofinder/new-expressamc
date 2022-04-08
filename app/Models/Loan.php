@@ -24,11 +24,6 @@ class Loan extends Model
         return $this->hasOne(Appraisal::class, 'loan_number', 'TransDetailsLoan');
     }
 
-    public function GuestAppraisal()
-    {
-        return $this->hasOne(GuestAppraisal::class, 'loan_number', 'TransDetailsLoan');
-    }
-
     public function User()
     {
         return $this->hasOne(User::class, 'created_by', 'id');

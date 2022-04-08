@@ -29,7 +29,7 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('loan_number')
                 ->references('TransDetailsLoan')
-                ->on('loans');
+                ->on('guest_loans');
         });
     }
 

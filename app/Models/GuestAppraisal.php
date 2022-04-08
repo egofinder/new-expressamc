@@ -23,7 +23,7 @@ class GuestAppraisal extends Model
 
     public function Loans()
     {
-        return $this->belongsTo(Loan::class);
+        return $this->belongsTo(GuestLoan::class);
     }
 
     public function Addon()
