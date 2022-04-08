@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\GuestAppraisalAddonController;
 use App\Http\Controllers\GuestAppraisalController;
 use App\Http\Controllers\GuestLoanController;
 use App\Http\Controllers\LoanController;
@@ -16,8 +17,13 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('order-appraisal-pacbay', [GuestAppraisalController::class, 'externalcreate']);
-Route::get('guest-appraisals/{appraisal}/payment', [GuestAppraisalController::class, 'payment']);
-Route::post('guest-appraisals/{appraisal}/purchase', [GuestAppraisalController::class, 'purchase']);
+Route::get('guest-appraisals/{guest_appraisal_addon}/addon', [GuestAppraisalAddonController::class, 'addon']);
+Route::get('guest-appraisals/{guest_appraisal_addon}/addonpayment', [GuestAppraisalAddonController::class, 'payment']);
+Route::post('guest-appraisals/{guest_appraisal_addon}/addonpurchase', [GuestAppraisalAddonController::class, 'purchase']);
+
+Route::post('guest-appraisals/{guest_appraisal}', [GuestAppraisalAddonController::class, 'store']);
+Route::get('guest-appraisals/{guest_appraisal}/payment', [GuestAppraisalController::class, 'payment']);
+Route::post('guest-appraisals/{guest_appraisal}/purchase', [GuestAppraisalController::class, 'purchase']);
 
 Route::resource('guest-loans', GuestLoanController::class);
 Route::resource('guest-appraisals', GuestAppraisalController::class);

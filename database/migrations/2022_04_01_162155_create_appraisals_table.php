@@ -18,7 +18,10 @@ return new class extends Migration
             $table->string('loan_number', 20);
             $table->string('invoice_id', 20)->unique()->nullable();
             $table->date('order_date');
-            $table->biginteger('order_by')->unsigned();
+            $table->unsignedBigInteger('order_by');
+            $table->string('company', 50)->nullable();
+            $table->string('phone', 30)->nullable();
+            $table->string('fax', 30)->nullable();
             $table->integer('fee');
             $table->string('payment', 20)->nullable();
             $table->string('paid_by', 20)->nullable();

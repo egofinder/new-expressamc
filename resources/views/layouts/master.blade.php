@@ -8,18 +8,18 @@
     @yield('styles')
 </head>
 
-<body class="flex-auto antialiased">
+<body class="antialiased">
     <header>
         @include('layouts.header')
     </header>
 
-
-    <div class="inline-flex">
-        <div class="h-screen"> @yield('sidebar')
+    <div>
+        <div> @yield('sidebar')
         </div>
-        <div class="w-screen"> @yield('content')
+        <div> @yield('content')
         </div>
     </div>
+
     <footer>
         @include('layouts.footer')
     </footer>

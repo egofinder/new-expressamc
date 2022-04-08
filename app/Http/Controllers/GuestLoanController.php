@@ -6,9 +6,10 @@ use App\Models\Loan;
 
 class GuestLoanController extends Controller
 {
+
     public function show($id)
     {
         $loan = Loan::where('TransDetailsLoan', $id)->first();
-        return view('guest-loans.show')->with('loan', $loan);
+        return view('guest-loans.show', compact('loan'));
     }
 }

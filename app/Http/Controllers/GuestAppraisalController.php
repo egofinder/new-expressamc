@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Appraisal;
+use App\Models\GuestAppraisal;
 use App\Models\Loan;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,14 +17,14 @@ class GuestAppraisalController extends Controller
 
     public function show($id)
     {
-        $appraisal = Appraisal::find($id);
+        $appraisal = GuestAppraisal::find($id);
         $loan      = Loan::where('TransDetailsLoan', $appraisal->loan_number)->first();
         return view('guest-appraisals.show', compact('appraisal', 'loan'));
     }
 
     public function create(Request $request)
     {
-        $user          = User::find(102);
+        $user          = User::find(1);
         $initial_order = Loan::where('TransDetailsLoan', $request->loan_number)->first();
 
         return view('guest-appraisals.externalcreate', compact('user', 'initial_order'));
@@ -33,8 +33,8 @@ class GuestAppraisalController extends Controller
     // Receive Appraisal order from pacbaylending.com/pac2/appraisal.php
     public function externalcreate(Request $request)
     {
-        $user          = User::find(102);
-        $appraisal     = Appraisal::where('loan_number', $request->keyword)->first();
+        $user          = User::find(1);
+        $appraisal     = GuestAppraisal::where('loan_number', $request->keyword)->first();
         $initial_order = Loan::where('TransDetailsLoan', $request->keyword)->first();
 
         if (isset($appraisal)) {
@@ -58,6 +58,7 @@ class GuestAppraisalController extends Controller
 
     public function store(Request $request)
     {
+
         $request->validate([
             'file'        => 'mimes:jpg,png,jpeg,pdf,txt,docx,doc|max:5048',
             'loan_number' => 'required|exists:loans,TransDetailsLoan',
@@ -66,11 +67,14 @@ class GuestAppraisalController extends Controller
 
         ]);
 
-        Appraisal::create([
+        GuestAppraisal::create([
             'loan_number' => $request->input('loan_number'),
             'order_date'  => $request->input('order_date'),
             'fee'         => $request->input('fee'),
-            'order_by'    => '102',
+            'order_by'    => $request->input('order_by'),
+            'company'     => $request->input('company'),
+            'phone'       => $request->input('broker_phone'),
+            'fax'         => $request->input('broker_fax'),
         ]);
 
         return redirect('guest-loans/' . $request->input('loan_number'));
@@ -78,15 +82,15 @@ class GuestAppraisalController extends Controller
 
     public function payment($id)
     {
-        $user   = User::find(102);
+        $user   = User::find(1);
         $intent = $user->createSetupIntent();
         return view('guest-appraisals.payment')->with('id', $id)->with('intent', $intent);
     }
 
     public function purchase(Request $request)
     {
-        $user          = User::find(102);
-        $appraisal     = Appraisal::find($request->id);
+        $user          = User::find(1);
+        $appraisal     = GuestAppraisal::find($request->id);
         $payer         = $request->input('card_holder_name');
         $paymentMethod = $request->input('payment_method');
         $amount        = $appraisal->fee;
@@ -100,4 +104,5 @@ class GuestAppraisalController extends Controller
 
         return redirect('guest-loans/' . $appraisal->loan_number);
     }
+
 }

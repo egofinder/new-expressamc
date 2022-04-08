@@ -20,4 +20,8 @@ Route::get('/', function () {
 Route::get('/', function () {
     return view('index');
 });
+
+Route::get('/test', function () {
+    return view('test');
+});
 require __DIR__ . '/auth.php';
